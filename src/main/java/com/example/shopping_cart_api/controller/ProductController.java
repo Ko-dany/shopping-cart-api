@@ -1,9 +1,11 @@
 package com.example.shopping_cart_api.controller;
 
+import com.example.shopping_cart_api.entity.Product;
 import com.example.shopping_cart_api.repository.ProductRepository;
-import com.example.shopping_cart_api.service.ProductService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class ProductController {
@@ -13,15 +15,8 @@ public class ProductController {
         this.repository = repository;
     }
 
-    // TODO: This will be deleted
-    @GetMapping("/greet")
-    public Greeting greet(){
-        String msg;
-        msg = repository.fetchGreeting();
-        msg = msg + " Dany!";
-        return new Greeting(msg);
+    @GetMapping("/products")
+    public List<Product> GetAllProducts(){
+        return repository.getAllProducts();
     }
-
-    // TODO: This will be deleted
-    public record Greeting(String greeting){}
 }
