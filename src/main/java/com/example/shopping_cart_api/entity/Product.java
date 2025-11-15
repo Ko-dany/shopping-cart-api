@@ -6,7 +6,7 @@ import jakarta.persistence.Id;
 @Entity
 public class Product {
     @Id
-    private Integer id;
+    private int id;
     private String name;
     private String description;
     private double price;
@@ -14,7 +14,7 @@ public class Product {
     private boolean isActive;
     private String image;
 
-    public Product(Integer id, String name, String description, double price, String sku, boolean isActive, String image) {
+    public Product(int id, String name, String description, double price, String sku, boolean isActive, String image) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -28,11 +28,11 @@ public class Product {
 
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
