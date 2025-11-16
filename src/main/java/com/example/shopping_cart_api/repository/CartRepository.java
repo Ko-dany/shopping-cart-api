@@ -1,7 +1,6 @@
 package com.example.shopping_cart_api.repository;
 
 import com.example.shopping_cart_api.entity.CartItem;
-import com.example.shopping_cart_api.entity.Product;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -27,6 +26,38 @@ public class CartRepository {
         );
     }
 
+    public CartItem getCartItemByProductId(int productId) {
+        try{
+            return jdbcTemplate.queryForObject(
+                    "SELECT * FROM cart_items WHERE product_id = ?",
+                    (rs, rowNum) -> new CartItem(
+                            rs.getInt("id"),
+                            rs.getInt("product_id"),
+                            rs.getInt("quantity")
+                    ),
+                    productId
+            );
+        }catch(EmptyResultDataAccessException e){
+            return null;
+        }
+    }
+
+    public CartItem getCartItemByCartItemId(int cartItemId) {
+        try{
+            return jdbcTemplate.queryForObject(
+                    "SELECT * FROM cart_items WHERE id = ?",
+                    (rs, rowNum) -> new CartItem(
+                            rs.getInt("id"),
+                            rs.getInt("product_id"),
+                            rs.getInt("quantity")
+                    ),
+                    cartItemId
+            );
+        }catch(EmptyResultDataAccessException e){
+            return null;
+        }
+    }
+
     public boolean deleteAllCartItems() {
         String sql = "DELETE FROM cart_items";
 
@@ -41,22 +72,6 @@ public class CartRepository {
         int rows = jdbcTemplate.update(sql, id);
 
         return rows > 0;
-    }
-
-    public CartItem getCartItemById(int productId) {
-        try{
-            return jdbcTemplate.queryForObject(
-                    "SELECT * FROM cart_items WHERE product_id = ?",
-                    (rs, rowNum) -> new CartItem(
-                            rs.getInt("id"),
-                            rs.getInt("product_id"),
-                            rs.getInt("quantity")
-                    ),
-                    productId
-            );
-        }catch(EmptyResultDataAccessException e){
-            return null;
-        }
     }
 
     public boolean addCartItem(int id) {

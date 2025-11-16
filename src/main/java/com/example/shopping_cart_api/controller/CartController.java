@@ -32,7 +32,7 @@ public class CartController {
 
     @DeleteMapping("/cart/{productId}")
     public String deleteProduct(@PathVariable int productId){
-        if(cartRepository.getCartItemById(productId) == null){ return "Cart item not found"; }
+        if(cartRepository.getCartItemByCartItemId(productId) == null){ return "Cart item not found"; }
 
         try{
             cartRepository.deleteCartItemById(productId);
@@ -44,7 +44,7 @@ public class CartController {
 
     @PostMapping("/cart/{productId}")
     public String addProductToCart(@PathVariable int productId){
-        CartItem existingAddedProduct = cartRepository.getCartItemById(productId);
+        CartItem existingAddedProduct = cartRepository.getCartItemByProductId(productId);
 
         try{
             if(existingAddedProduct == null){
