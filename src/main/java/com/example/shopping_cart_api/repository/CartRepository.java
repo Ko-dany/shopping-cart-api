@@ -6,6 +6,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class CartRepository {
     private final JdbcTemplate jdbcTemplate;
@@ -14,7 +16,34 @@ public class CartRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public CartItem getProductById(int productId) {
+    public List<CartItem> getAllCartItems() {
+        return jdbcTemplate.query(
+                "SELECT * FROM cart_items",
+                (rs, rowNum) -> new CartItem(
+                        rs.getInt("id"),
+                        rs.getInt("product_id"),
+                        rs.getInt("quantity")
+                )
+        );
+    }
+
+    public boolean deleteAllCartItems() {
+        String sql = "DELETE FROM cart_items";
+
+        int rows = jdbcTemplate.update(sql);
+
+        return rows > 0;
+    }
+
+    public boolean deleteCartItemById(int id) {
+        String sql = "DELETE FROM cart_items WHERE id = ?";
+
+        int rows = jdbcTemplate.update(sql, id);
+
+        return rows > 0;
+    }
+
+    public CartItem getCartItemById(int productId) {
         try{
             return jdbcTemplate.queryForObject(
                     "SELECT * FROM cart_items WHERE product_id = ?",
@@ -30,8 +59,7 @@ public class CartRepository {
         }
     }
 
-
-    public boolean addProduct(int id) {
+    public boolean addCartItem(int id) {
         String sql = """
         INSERT INTO cart_items (product_id, quantity) 
         VALUES (?, 1)
