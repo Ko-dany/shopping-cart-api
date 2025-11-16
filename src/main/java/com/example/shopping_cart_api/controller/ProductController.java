@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/products")
+@CrossOrigin(origins = "http://localhost:5173")
 public class ProductController {
     private final ProductRepository productRepository;
 
@@ -14,17 +16,17 @@ public class ProductController {
         this.productRepository = productRepository;
     }
 
-    @GetMapping("/products")
+    @GetMapping("")
     public List<Product> GetAllProducts(){
         return productRepository.getAllProducts();
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("/{id}")
     public Product GetProductById(@PathVariable int id){
         return productRepository.getProductById(id);
     }
 
-    @PostMapping("/products")
+    @PostMapping("")
     public String AddProduct(@RequestBody Product product){
         try{
             productRepository.addProduct(product);
@@ -34,7 +36,7 @@ public class ProductController {
         }
     }
 
-    @PutMapping("/products/{id}")
+    @PutMapping("/{id}")
     public String UpdateProduct(@PathVariable int id, @RequestBody Product product){
         if(productRepository.getProductById(id) == null){ return "Product not found"; }
         if(id != product.getId()) { return "Id mismatch"; }
@@ -46,7 +48,7 @@ public class ProductController {
         }
     }
 
-    @DeleteMapping("products/{id}")
+    @DeleteMapping("/{id}")
     public String deleteProduct(@PathVariable int id){
         if(productRepository.getProductById(id) == null){ return "Product not found"; }
         try{
