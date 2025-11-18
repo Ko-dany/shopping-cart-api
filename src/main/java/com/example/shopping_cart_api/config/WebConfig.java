@@ -10,10 +10,13 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")  // Allow all paths
-                .allowedOrigins("https://shopping-cart-web.onrender.com")  // Vite server
+                .allowedOrigins(
+                        "https://shopping-cart-web.onrender.com",
+                        "http://shopping-cart-web.onrender.com"
+                )  // Vite server
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                 .allowedHeaders("*")
-                .allowCredentials(true)
+                .exposedHeaders("*")
                 .maxAge(3600);
     }
 }

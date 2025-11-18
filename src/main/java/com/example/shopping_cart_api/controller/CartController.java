@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "https://shopping-cart-web.onrender.com")
 public class CartController {
     private final CartRepository cartRepository;
 

@@ -8,7 +8,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
-@CrossOrigin(origins = "https://shopping-cart-web.onrender.com")
 public class ProductController {
     private final ProductRepository productRepository;
 
